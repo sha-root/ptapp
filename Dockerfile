@@ -1,24 +1,28 @@
-# Використовуємо офіційний образ Python
-FROM python:3.12-slim
+ARG PYTHON_IMAGE="python:3.12-slim"
+FROM ${PYTHON_IMAGE} AS buildbase
 
-# Встановлюємо залежності системи
+# Install apt packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential libssl-dev libpq-dev gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Встановлюємо робочий каталог
+# Set working dir
 WORKDIR /app
 
-# Встановлюємо Python-залежності
+# Open port uWSGI
+EXPOSE 8000
+
+# Install Python-dependecies
 COPY simpleapi/requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-# Копіюємо файли проекту в контейнер
+CMD python3 manage.py runserver 0.0.0.0:8000
+
+FROM buildbase AS buildcode
+
+# Copy project's files
 COPY simpleapi/ /app/
 
-# Відкриваємо порт для uWSGI
-EXPOSE 8000
-
-# Команда для запуску uWSGI
+# Start command
 CMD ["uwsgi", "--http", "0.0.0.0:8000", "--module", "simpleapi.wsgi:application", "--master", "--processes", "2", "--threads", "2"]

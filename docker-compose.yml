@@ -1,0 +1,42 @@
+version: '3.8'
+
+x-env: &env-shared
+  environment:
+    - TZ=${TZ:-Europe/Kyiv}
+    - POSTGRES_USER=${POSTGRES_USER:-pglocal}
+    - POSTGRES_DB=${POSTGRES_DB:-pglocal}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-pglocal}
+    - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-simpleapi.settings_dev}
+    - SECRET_KEY
+
+volumes:
+  pgdata:
+
+services:
+  pg:
+    <<: *env-shared
+    restart: always
+    image: "${PG_IMAGE:-postgres:17}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data:rw
+    profiles:
+      - pg
+
+  mainapp:
+    <<: *env-shared
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        PYTHON_IMAGE: "${PYTHON_IMAGE:-python:3.12-slim}"
+    ports:
+      - "8000:8000"
+
+  migrate:
+    <<: *env-shared
+    image: "${COMPOSE_PROJECT_NAME}-mainapp"
+    command: >
+      bash -c "python ./manage.py migrate --noinput"
+    profiles:
+      - migrate
