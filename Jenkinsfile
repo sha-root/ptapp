@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-#        DOCKER_IMAGE = "myregistry.local/${COMPOSE_PROJECT_NAME}:latest"
         VPS_IP = credentials('ptdev-vps-ip')
         SSH_PKEY = credentials('ptdev-ssh-pkey')
         DOCKER_HOST = "ssh://jenkins@${VPS_IP}"
@@ -37,7 +36,6 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 sh "docker-compose build"
-#                sh "docker build --target dockerbase --build-arg PYTHON_IMAGE=${PYTHON_IMAGE}  -t ${DOCKER_IMAGE} ."
             }
         }
 
