@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'dev4 || docker || docker-compose' }
 
     environment {
         VPS_IP = credentials('ptdev-vps-ip')
