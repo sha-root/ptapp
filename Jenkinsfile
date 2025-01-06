@@ -1,16 +1,31 @@
 pipeline {
-    agent { label 'dev-agent' }
+    agent any
 
     environment {
-        COMPOSE_PROJECT_NAME = 'ptdev'
-        COMPOSE_FILE = 'docker-compose.yml'
-        DOCKER_IMAGE = "myregistry.local/${COMPOSE_PROJECT_NAME}:latest"
-        SECRET_KEY = 'devsecrettext'
-        DJANGO_SETTINGS_MODULE = 'simpleapi.settings_local'
-        PYTHON_IMAGE = 'python:3.12-slim'
+#        DOCKER_IMAGE = "myregistry.local/${COMPOSE_PROJECT_NAME}:latest"
+        VPS_IP = credentials('ptdev-vps-ip')
+        SSH_PKEY = credentials('ptdev-ssh-pkey')
+        DOCKER_HOST = "ssh://jenkins@${VPS_IP}"
+        COMPOSE_PROJECT_NAME = "ptdev"
+        COMPOSE_FILE = "docker-compose.yml"
+        PYTHON_IMAGE = "python:3.12-slim"
+        SECRET_KEY = "ptdevsecretkeyMayBeSetFromCredentials"
+        DJANGO_SETTINGS_MODULE = "simpleapi.settings_local"
     }
 
     stages {
+        stage('Setup'){
+            steps {
+                echo 'configure ssh key and host'
+                sh '''
+                    [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh && 
+                    echo "Host ${VPS_IP}" >> ~/.ssh/config
+                    echo "    User jenkins" >> ~/.ssh/config
+                    echo "    IdentityFile ${SSH_PKEY}" >> ~/.ssh/config
+                '''
+                sh "docker-compose ps && docker-compose config"
+            }
+        }
         stage('Checkout') {
             steps {
                 echo 'Cloning the repository...'
@@ -54,6 +69,7 @@ pipeline {
     post {
         always {
             echo 'Pipeline completed.'
+            sh "rm -f ~/.ssh/config"
         }
         success {
             echo 'Application successfully deployed!'
