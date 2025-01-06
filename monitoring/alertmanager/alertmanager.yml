@@ -12,6 +12,6 @@ receivers:
     api_url: 'https://api.telegram.org'
     chat_id: '-1002467649975'
     parse_mode: ''
-    message_thread_id: '2'
+#    message_thread_id: '2'
 #    message: "🚨 Alertmanager 🚨\n--\n🔺 Alertname: {{ .GroupLabels.alertname}}\n🔺 Severity: {{ .CommonLabels.severity }}\n📌 {{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
 
