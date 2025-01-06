@@ -21,7 +21,7 @@ services:
     image: prom/alertmanager:v0.27.0
     volumes:
       - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
-      - ./alertmanager/templates/default.tmpl:/etc/alertmanager/templates/default.tmpl
+#      - ./alertmanager/templates/default.tmpl:/etc/alertmanager/templates/default.tmpl
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
     ports:

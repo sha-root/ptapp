@@ -2,19 +2,16 @@ global:
   resolve_timeout: 5m
 
 route:
- group_by: ['...']
- # If an alert isn't caught by a route, send it slack.
- receiver: telegram
+  group_by: [ alertname ]
+  receiver: telegram
 
 receivers:
 - name: telegram
   telegram_configs:
   - bot_token: '7899538932:AAH13Yo1Ko4BzZWCj-VTTE_sy-N1nhXg2t4'
-      api_url: 'https://api.telegram.org'
-      chat_id: '-1002467649975'
-      parse_mode: ''
-      message_thread_id: '2'
-#      message: "🚨 Alertmanager 🚨\n--\n🔺 Alertname: {{ .GroupLabels.alertname}}\n🔺 Severity: {{ .CommonLabels.severity }}\n📌 {{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+    api_url: 'https://api.telegram.org'
+    chat_id: '-1002467649975'
+    parse_mode: ''
+    message_thread_id: '2'
+#    message: "🚨 Alertmanager 🚨\n--\n🔺 Alertname: {{ .GroupLabels.alertname}}\n🔺 Severity: {{ .CommonLabels.severity }}\n📌 {{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
 
-templates:
-  - '/etc/alertmanager/templates/default.tmpl' 
