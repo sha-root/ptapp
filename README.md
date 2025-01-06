@@ -72,6 +72,9 @@ cp /home/jenkins/.ssh/id_rsa.pub /home/jenkins/.ssh/authorized_keys && chmod 600
 
 ### Configure Jenkins via UI
 
+> [!NOTE]
+> Your jenkins Agent must has "docker compose" installed and it must has one of these labels: 'dev4 || docker || docker-compose'
+
 Add new secrets in Jenkins Credentials 
 
 1. > ptdev-ssh-pkey.
