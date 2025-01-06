@@ -21,7 +21,7 @@ docker-compose run --rm migrate
 docker-compose up -V -d
 ```
 
-Check if API available locally on [http://127.0.0.1:800/api/current-time/](http://127.0.0.1:8000/api/current-time/)
+Check if API available locally on [http://127.0.0.1:8000/api/current-time/](http://127.0.0.1:8000/api/current-time/)
 
 Next times you can re-build  and re-deploy locally with one next command:
 ```sh
