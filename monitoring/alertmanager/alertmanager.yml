@@ -10,8 +10,7 @@ receivers:
   telegram_configs:
   - bot_token: '7899538932:AAH13Yo1Ko4BzZWCj-VTTE_sy-N1nhXg2t4'
     api_url: 'https://api.telegram.org'
-    chat_id: '-1002467649975'
-    parse_mode: ''
+    chat_id: -1002467649975
 #    message_thread_id: '2'
 #    message: "🚨 Alertmanager 🚨\n--\n🔺 Alertname: {{ .GroupLabels.alertname}}\n🔺 Severity: {{ .CommonLabels.severity }}\n📌 {{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
 
