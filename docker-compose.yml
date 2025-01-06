@@ -32,6 +32,11 @@ services:
         PYTHON_IMAGE: "${PYTHON_IMAGE:-python:3.12-slim}"
     ports:
       - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/current-time/"]
+      interval: 10s  # Інтервал перевірки
+      timeout: 2s   # Таймаут для виконання перевірки
+      retries: 2     # Кількість спроб перед визнанням контейнера unhealthy
 
   migrate:
     <<: *env-shared

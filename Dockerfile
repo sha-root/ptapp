@@ -3,7 +3,7 @@ FROM ${PYTHON_IMAGE} AS buildbase
 
 # Install apt packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential libssl-dev libpq-dev gcc \
+    build-essential libssl-dev libpq-dev gcc curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
