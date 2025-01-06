@@ -115,7 +115,7 @@ Press “Save”
 
 Try to run your created “Pipeline Job”  press “Build Now” 
 
-The END (hope build was success:) ).
+The END (hope, the build was success:) ).
 
 ## [DEPLOY MONITORING SERVICES](https://github.com/sha-root/ptapp/blob/main/monitoring/readme.md)
 
