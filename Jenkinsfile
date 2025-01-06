@@ -20,8 +20,8 @@ pipeline {
                 sh '''
                     [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh && 
                     echo "Host ${VPS_IP}" >> ~/.ssh/config
-                    echo "    UserKnownHostsFile /dev/null"
-                    echo "    StrictHostKeyChecking no"
+                    echo "    UserKnownHostsFile /dev/null" >> ~/.ssh/config
+                    echo "    StrictHostKeyChecking no" >> ~/.ssh/config
                     echo "    User jenkins" >> ~/.ssh/config
                     echo "    IdentityFile ${SSH_PKEY}" >> ~/.ssh/config
                 '''
