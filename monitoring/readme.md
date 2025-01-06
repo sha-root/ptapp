@@ -7,9 +7,12 @@ We use Prometheus as datasources(time-series databases) for grafana graphs.
 
 Prometheus server scrapes and stores time series data from different exporter services, in our case we use node_exporter to scrape servers metrics like CPU,RAM,DISK,NETWORK.
 
-[Run Prometheus datasource](#Prometheus)
+[Run Prometheus datasource](#prometheus)
+
 [Run Grafana](#grafana)
+
 [Run Node-prometheus-exporter](#node-exporter)
+
 [Run AlertManager](#alertmanager)
 
 ## Run all Monitoring services:
@@ -34,14 +37,14 @@ run separate service:
 docker-compose up -d prometheus
 ```
 
-## Grafana - visualize and explore your metrics
+## Grafana
 
 run separate service:
 ```sh
 docker-compose up -d grafana
 ```
 
-## Node_exporter returns server resources usage metrics for prometheus
+## Node-exporter
 
 run separate service:
 ```sh
