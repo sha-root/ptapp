@@ -1,5 +1,6 @@
 pipeline {
     agent { label 'dev4 || docker || docker-compose' }
+    //agent {docker {image 'docker:cli'}}
 
     environment {
         VPS_IP = credentials('ptdev-vps-ip')
@@ -19,6 +20,8 @@ pipeline {
                 sh '''
                     [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh && 
                     echo "Host ${VPS_IP}" >> ~/.ssh/config
+                    echo "    UserKnownHostsFile /dev/null"
+                    echo "    StrictHostKeyChecking no"
                     echo "    User jenkins" >> ~/.ssh/config
                     echo "    IdentityFile ${SSH_PKEY}" >> ~/.ssh/config
                 '''
