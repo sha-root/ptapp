@@ -10,11 +10,21 @@ Prometheus server scrapes and stores time series data from different exporter se
 [Run Prometheus datasource](#Prometheus)
 [Run Grafana](#grafana)
 [Run Node-prometheus-exporter](#node-exporter)
+[Run AlertManager](#alertmanager)
 
+## Run all Monitoring services:
+
+connect by ssh to dev and su jenkins user:
+```sh
+su - jenkins
+git clone https://github.com/sha-root/ptapp.git ptapp
+cd ptapp/monitoring
+docker-compose up -d
+```
 
 ## Prometheus
 
-run service:
+run separate service:
 
 ```sh
 docker-compose up -d prometheus
@@ -22,14 +32,21 @@ docker-compose up -d prometheus
 
 ## Grafana - visualize and explore your metrics
 
-run service:
+run separate service:
 ```sh
 docker-compose up -d grafana
 ```
 
 ## Node_exporter returns server resources usage metrics for prometheus
 
-run service:
+run separate service:
 ```sh
 docker-compose up -d nodeexporter
+```
+
+## AlertManager
+
+run separate service:
+```sh
+docker-compose up -d alertmanager
 ```

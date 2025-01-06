@@ -4,7 +4,7 @@ groups:
   rules:
     - alert: OutOfMemory
       expr: (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes * 100 < 10
-      for: 3m
+      for: 10s
       labels:
         severity: critique
       annotations:
@@ -14,11 +14,11 @@ groups:
 
     - alert: CpuLoad
       expr: node_load15 / (count without (cpu, mode) (node_cpu_seconds_total{mode="system"})) > 2
-      for: 3m
+      for: 10s
       labels:
         severity: critique
       annotations:
         identifier: "{{ $labels.instance }}"
         summary: "CPU load (instance {{ $labels.instance }})"
-        description: "<!channel>  CPU (3m) high   VALUE = {{ $value }}    LABELS: {{ $labels.job }} : {{ $labels.instance }}"
+        description: "<!channel>  CPU (10s) high   VALUE = {{ $value }}    LABELS: {{ $labels.job }} : {{ $labels.instance }}"
 
