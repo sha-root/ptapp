@@ -3,6 +3,7 @@ version: '3'
 services:
 
   prometheus:
+    restart: always
     image: prom/prometheus:v3.0.1
     volumes:
       - prometheus-data:/prometheus
@@ -15,16 +16,19 @@ services:
     ports:
       - 127.0.0.1:9090:9090
 
-    #alertmanager:
-    #image: prom/alertmanager:v0.18.0
-    #container_name: alertmanager
-    #volumes:
-    #  - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
-    #  - ./alertmanager/templates/default.tmpl:/etc/alertmanager/templates/default.tmpl
-    #command:
-    #  - '--config.file=/etc/alertmanager/alertmanager.yml'
+  alertmanager:
+    restart: always
+    image: prom/alertmanager:v0.27.0
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./alertmanager/templates/default.tmpl:/etc/alertmanager/templates/default.tmpl
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    ports:
+      - 127.0.0.1:9093:9093
 
   grafana:
+    restart: always
     image: grafana/grafana:11.4.0
     environment:
       - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
@@ -40,6 +44,7 @@ services:
       - 3000:3000
 
   nodeexporter:
+    restart: always
     image: prom/node-exporter:v1.8.2
     command:
       - '--path.rootfs=/host'
@@ -47,6 +52,20 @@ services:
       - '/:/host:ro,rslave'
     ports:
       - 127.0.0.1:9100:9100
+
+  cadvisor:
+    restart: always
+    image: gcr.io/cadvisor/cadvisor
+    command:
+      - '-housekeeping_interval=10s'
+      - '-docker_only=true'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 127.0.0.1:8080:8080
 
 volumes:
   prometheus-data:

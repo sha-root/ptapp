@@ -7,12 +7,11 @@ global:
     env: 'infrastructure'
 
 # alertmanager
-
 alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      - localhost:9093
+      - alertmanager:9093
     scheme: http
     timeout: 10s
 
@@ -26,8 +25,7 @@ scrape_configs:
       - targets: ['nodeexporter:9100']
     scrape_interval: 5s
 
-#  - job_name: 'cadvisor-exporter'
-#    scrape_interval: 10s
-#    static_configs:
-#      - targets: ['cadvisor-exporter:8080']
-
+  - job_name: 'cadvisor'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['cadvisor:8080']
