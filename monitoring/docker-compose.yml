@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alertmanager/alert.rules/alerts.rules.yml:/alertmanager/alert.rules/alerts.rules.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=365d'
+    ports:
+      - 127.0.0.1:9090:9090
+
+    #alertmanager:
+    #image: prom/alertmanager:v0.18.0
+    #container_name: alertmanager
+    #volumes:
+    #  - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    #  - ./alertmanager/templates/default.tmpl:/etc/alertmanager/templates/default.tmpl
+    #command:
+    #  - '--config.file=/etc/alertmanager/alertmanager.yml'
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    environment:
+      - GF_PATHS_CONFIG=/etc/grafana/grafana.ini
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - 3000:3000
+
+  nodeexporter:
+    image: prom/node-exporter:v1.8.2
+    command:
+      - '--path.rootfs=/host'
+    volumes:
+      - '/:/host:ro,rslave'
+    ports:
+      - 127.0.0.1:9100:9100
+
+volumes:
+  prometheus-data:
+  grafana-data:

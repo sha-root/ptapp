@@ -1,0 +1,13 @@
+apiVersion: 1
+
+providers:
+
+- name: 'Monitoring'
+  orgId: 1
+  folder: 'provisioning'
+  type: file
+  disableDeletion: false
+  updateIntervalSeconds: 60 #how often Grafana will scan for changed dashboards
+  options:
+    path: /var/lib/grafana/dashboards
+    foldersFromFilesStructure: true
