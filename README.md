@@ -67,7 +67,7 @@ sudo ssh-keygen  -t rsa
 #(Press “Enter” three times to generate key with empty passphrase)
 
 cp /home/jenkins/.ssh/id_rsa.pub /home/jenkins/.ssh/authorized_keys && chmod 600 /home/jenkins/.ssh/authorized_keys
-# Download ssh private key /home/jenkins/.ssh/id_rsa.pub  (“scp” command can be used)
+# Download ssh private key /home/jenkins/.ssh/id_rsa  (“scp” command can be used)
 ```
 
 ### Configure Jenkins via UI
