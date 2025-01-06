@@ -22,6 +22,10 @@ cd ptapp/monitoring
 docker-compose up -d
 ```
 
+Grafana with dashboards must be here: http://<VPS_IP>:3000/ 
+
+(Username: 'grafana', Password: 'Grafana!')
+
 ## Prometheus
 
 run separate service:
